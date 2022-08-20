@@ -10,6 +10,7 @@ flake8 = "*"
 black = "*"
 pre-commit = "*"
 mypy = "*"
+pytest = "*"
 
 [dev-packages]
 
