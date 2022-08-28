@@ -11,6 +11,7 @@ black = "*"
 pre-commit = "*"
 mypy = "*"
 pytest = "*"
+pydantic = "*"
 
 [dev-packages]
 
