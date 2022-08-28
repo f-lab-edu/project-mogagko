@@ -12,6 +12,7 @@ pre-commit = "*"
 mypy = "*"
 pytest = "*"
 pydantic = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 

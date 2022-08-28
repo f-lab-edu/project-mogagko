@@ -1,15 +1,9 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 
-from app.config import get_settings, Settings
+from mogako.app.api import api_router
+from mogako.db.database import engine, Base
 
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-
-@app.get("/ping")
-def pong(settings: Settings = Depends(get_settings)):
-    return {
-        "ping": "pong!",
-        "environment": settings.environment,
-        "testing": settings.testing,
-    }
+app.include_router(api_router)
