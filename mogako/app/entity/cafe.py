@@ -26,5 +26,5 @@ class Cafe(BaseModel):
     tel: str | None = None
     opened_at: datetime | None = None
     closed_at: datetime | None = None
-    created_at: datetime = Field(default_factory=datetime.now)
-    updated_at: datetime = Field(default_factory=datetime.now)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
