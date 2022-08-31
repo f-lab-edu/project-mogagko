@@ -1,5 +1,7 @@
 from sqlalchemy import Boolean, Column, Integer
 from sqlalchemy import String, Float, DateTime, ForeignKey
+
+# from sqlalchemy.dialects.mysql import TINYINT
 from sqlalchemy.orm import relationship
 from mogako.db.database import Base
 
@@ -42,7 +44,7 @@ class Cafe(Base, DBModelUtil):
 class OpeningDay(Base, DBModelUtil):
     __tablename__ = "opening_day"
 
-    cafe_opening_day_id = Column(
+    opening_day_id = Column(
         Integer, primary_key=True, index=True, autoincrement=True
     )
 
@@ -125,7 +127,7 @@ class Comment(Base, DBModelUtil):
     comment_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     cafe_id = Column(Integer, ForeignKey("cafe.cafe_id"))
     comment = Column(String)
-
+    user_id = Column(Integer, ForeignKey("user.user_id"))
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
