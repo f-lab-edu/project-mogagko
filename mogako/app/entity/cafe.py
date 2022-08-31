@@ -9,7 +9,7 @@ def generate_external_key():
 
 
 class Cafe(BaseModel):
-    id: int | None = None
+    cafe_id: int | None = None
     external_key: str = Field(default_factory=generate_external_key)
     name: str
     address: str | None = None
@@ -24,7 +24,7 @@ class Cafe(BaseModel):
     is_parking: bool | None = None
     naver_map_url: str | None = None
     tel: str | None = None
-    opened_at: datetime | None = None
-    closed_at: datetime | None = None
+    # opened_at: datetime | None = None
+    # closed_at: datetime | None = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
