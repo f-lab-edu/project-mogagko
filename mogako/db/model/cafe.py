@@ -1,7 +1,6 @@
 from sqlalchemy import Boolean, Column, Integer
 from sqlalchemy import String, Float, DateTime, ForeignKey
 
-# from sqlalchemy.dialects.mysql import TINYINT
 from sqlalchemy.orm import relationship
 from mogako.db.database import Base
 
@@ -23,26 +22,21 @@ class Cafe(Base):
     surrounding_station = Column(String(64))
     is_parking = Column(Boolean)
     naver_map_url = Column(String(512))
-    # opened_at = Column(DateTime)
-    # closed_at = Column(DateTime)
     tel = Column(String(32))
 
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    cafe_cafe_opening_day = relationship(
-        "CafeOpeningDay", back_populates="cafe_opening_day_cafe"
-    )
-    cafe_cafe_x_tag = relationship("CafeXTag",\
-                                   back_populates="cafe_x_tag_cafe")
-    cafe_image = relationship("Image", back_populates="image_cafe")
-    cafe_vote = relationship("Vote", back_populates="vote_cafe")
+    opening_day = relationship("OpeningDay", back_populates="opening_day")
+    cafe_tag = relationship("CafeTag", back_populates="cafe_tag")
+    image = relationship("Image", back_populates="image")
+    vote = relationship("Vote", back_populates="vote")
 
-    cafe_comment = relationship("Comment", back_populates="comment_cafe")
+    comment = relationship("Comment", back_populates="comment")
 
 
-class CafeOpeningDay(Base):
-    __tablename__ = "cafe_opening_day"
+class OpeningDay(Base):
+    __tablename__ = "opening_day"
 
     cafe_opening_day_id = Column(
         Integer, primary_key=True, index=True, autoincrement=True
@@ -50,7 +44,8 @@ class CafeOpeningDay(Base):
 
     cafe_id = Column(Integer, ForeignKey("cafe.cafe_id"))
     week = Column(String(32))
-    # TINYINT
+
+    # TINYINT로 추후에 데이터 타입 수정
     start_time_hour = Column(Integer)
     start_time_miniute = Column(Integer)
     end_time_hour = Column(Integer)
@@ -59,21 +54,7 @@ class CafeOpeningDay(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    cafe_opening_day_cafe = relationship("Cafe", back_populates="cafe_cafe_opening_day")
-
-
-class CafeXTag(Base):
-    __tablename__ = "cafe_x_tag"
-
-    cafe_x_tag_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-
-    cafe_id = Column(Integer, ForeignKey("cafe.cafe_id"))
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
-
-    cafe_x_tag_cafe = relationship("Cafe", back_populates="cafe_cafe_x_tag")
-
-    cafe_x_tag_cafe_tag = relationship("CafeTag", back_populates="cafe_tag_cafe_x_tag")
+    cafe = relationship("Cafe", back_populates="opening_day")
 
 
 class CafeTag(Base):
@@ -81,14 +62,28 @@ class CafeTag(Base):
 
     cafe_tag_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
 
-    cafe_x_tag_id = Column(Integer, ForeignKey("cafe_x_tag.cafe_x_tag_id"))
+    cafe_id = Column(Integer, ForeignKey("cafe.cafe_id"))
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+
+    cafe = relationship("Cafe", back_populates="cafe_tag")
+
+    tag = relationship("Tag", back_populates="cafe_tag")
+
+
+class Tag(Base):
+    __tablename__ = "tag"
+
+    tag_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+
+    cafe_tag_id = Column(Integer, ForeignKey("cafe_tag.cafe_tag_id"))
 
     tag = Column(String(128))
 
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    cafe_tag_cafe_x_tag = relationship("CafeXTag", back_populates="cafe_x_tag_cafe_tag")
+    cafe_tag = relationship("CafeTag", back_populates="tag")
 
 
 class Image(Base):
@@ -102,7 +97,7 @@ class Image(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    image_cafe = relationship("Cafe", back_populates="cafe_image")
+    cafe = relationship("Cafe", back_populates="image")
 
 
 class Vote(Base):
@@ -111,14 +106,12 @@ class Vote(Base):
     vote_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     cafe_id = Column(Integer, ForeignKey("cafe.cafe_id"))
 
-    # user_id = Column(Integer, ForeignKey("User.user_id"))
-
     is_like = Column(Boolean)
 
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    vote_cafe = relationship("Cafe", back_populates="cafe_vote")
+    cafe = relationship("Cafe", back_populates="vote")
 
 
 class Comment(Base):
@@ -127,9 +120,8 @@ class Comment(Base):
     comment_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     cafe_id = Column(Integer, ForeignKey("cafe.cafe_id"))
     comment = Column(String)
-    user_id = Column(Integer, ForeignKey("User.user_id"))
 
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    comment_cafe = relationship("Cafe", back_populates="cafe_comment")
+    cafe = relationship("Cafe", back_populates="comment")

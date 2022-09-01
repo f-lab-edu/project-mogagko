@@ -24,7 +24,5 @@ class Cafe(BaseModel):
     is_parking: bool | None = None
     naver_map_url: str | None = None
     tel: str | None = None
-    # opened_at: datetime | None = None
-    # closed_at: datetime | None = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
