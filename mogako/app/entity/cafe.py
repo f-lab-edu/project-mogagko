@@ -9,7 +9,6 @@ def generate_external_key():
 
 
 class Cafe(BaseModel):
-    cafe_id: int | None = None
     external_key: str = Field(default_factory=generate_external_key)
     name: str
     address: str | None = None
@@ -25,5 +24,12 @@ class Cafe(BaseModel):
     naver_map_url: str | None = None
     tel: str | None = None
     count_like: int | None = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class Comment(BaseModel):
+    external_key: str = Field(default_factory=generate_external_key)
+    comment: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
