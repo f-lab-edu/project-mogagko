@@ -1,7 +1,6 @@
 from sqlalchemy import Boolean, Column, Integer
 from sqlalchemy import String, Float, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-
 from mogako.db.database import Base
 
 
