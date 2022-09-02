@@ -15,5 +15,3 @@ class CafeCreateRequest(BaseModel):
     is_parking: bool | None = None
     naver_map_url: str | None = None
     tel: str | None = None
-    opened_at: str | None = None
-    closed_at: str | None = None

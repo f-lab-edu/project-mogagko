@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from pydantic import BaseModel
 
 
@@ -17,5 +15,3 @@ class CafeCreateDTO(BaseModel):
     is_parking: bool | None = None
     naver_map_url: str | None = None
     tel: str | None = None
-    opened_at: datetime | None = None
-    closed_at: datetime | None = None

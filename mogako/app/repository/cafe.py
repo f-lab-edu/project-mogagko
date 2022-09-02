@@ -13,5 +13,5 @@ class CafeRepository:
         self.db.add(cafe_orm)
         self.db.commit()
         self.db.refresh(cafe_orm)
-        cafe.id = cafe_orm.id
+        cafe.cafe_id = cafe_orm.cafe_id
         return cafe
