@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, Integer
 from sqlalchemy import String, Float, DateTime, ForeignKey
-
 from sqlalchemy.orm import relationship
+
 from mogako.db.database import Base
 
 
@@ -27,12 +27,12 @@ class Cafe(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    opening_day = relationship("OpeningDay", back_populates="opening_day")
-    cafe_tag = relationship("CafeTag", back_populates="cafe_tag")
-    image = relationship("Image", back_populates="image")
-    vote = relationship("Vote", back_populates="vote")
+    opening_day = relationship("OpeningDay", back_populates="cafe")
+    cafe_tag = relationship("CafeTag", back_populates="cafe")
+    image = relationship("Image", back_populates="cafe")
+    vote = relationship("Vote", back_populates="cafe")
 
-    comment = relationship("Comment", back_populates="comment")
+    comment = relationship("Comment", back_populates="cafe")
 
 
 class OpeningDay(Base):
