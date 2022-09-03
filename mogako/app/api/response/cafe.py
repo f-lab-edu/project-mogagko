@@ -3,7 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class CafeCreateResponse(BaseModel):
+class CafeResponse(BaseModel):
     external_key: str
     name: str
     address: str | None
@@ -18,5 +18,6 @@ class CafeCreateResponse(BaseModel):
     is_parking: bool | None
     naver_map_url: str | None
     tel: str | None
+    count_like: int | None
     created_at: datetime
     updated_at: datetime

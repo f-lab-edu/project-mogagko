@@ -4,7 +4,12 @@ from sqlalchemy.orm import relationship
 from mogako.db.database import Base
 
 
-class Cafe(Base):
+class DBModelUtil:
+    def dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class Cafe(Base, DBModelUtil):
     __tablename__ = "cafe"
 
     cafe_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -22,19 +27,19 @@ class Cafe(Base):
     is_parking = Column(Boolean)
     naver_map_url = Column(String(512))
     tel = Column(String(32))
-
+    count_like = Column(Integer, default=0)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    opening_day = relationship("OpeningDay", back_populates="cafe")
-    cafe_tag = relationship("CafeTag", back_populates="cafe")
-    image = relationship("Image", back_populates="cafe")
-    vote = relationship("Vote", back_populates="cafe")
+    opening_days = relationship("OpeningDay", back_populates="cafe")
+    cafe_tags = relationship("CafeTag", back_populates="cafe")
+    images = relationship("Image", back_populates="cafe")
+    votes = relationship("Vote", back_populates="cafe")
 
-    comment = relationship("Comment", back_populates="cafe")
+    comments = relationship("Comment", back_populates="cafe")
 
 
-class OpeningDay(Base):
+class OpeningDay(Base, DBModelUtil):
     __tablename__ = "opening_day"
 
     cafe_opening_day_id = Column(
@@ -53,10 +58,10 @@ class OpeningDay(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    cafe = relationship("Cafe", back_populates="opening_day")
+    cafe = relationship("Cafe", back_populates="opening_days")
 
 
-class CafeTag(Base):
+class CafeTag(Base, DBModelUtil):
     __tablename__ = "cafe_tag"
 
     cafe_tag_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -65,12 +70,12 @@ class CafeTag(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    cafe = relationship("Cafe", back_populates="cafe_tag")
+    cafe = relationship("Cafe", back_populates="cafe_tags")
 
-    tag = relationship("Tag", back_populates="cafe_tag")
+    tag = relationship("Tag", back_populates="cafe_tags")
 
 
-class Tag(Base):
+class Tag(Base, DBModelUtil):
     __tablename__ = "tag"
 
     tag_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -82,10 +87,10 @@ class Tag(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    cafe_tag = relationship("CafeTag", back_populates="tag")
+    cafe_tags = relationship("CafeTag", back_populates="tag")
 
 
-class Image(Base):
+class Image(Base, DBModelUtil):
     __tablename__ = "image"
 
     image_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -96,24 +101,25 @@ class Image(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    cafe = relationship("Cafe", back_populates="image")
+    cafe = relationship("Cafe", back_populates="images")
 
 
-class Vote(Base):
+class Vote(Base, DBModelUtil):
     __tablename__ = "vote"
 
     vote_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     cafe_id = Column(Integer, ForeignKey("cafe.cafe_id"))
-
+    user_id = Column(Integer, ForeignKey("user.user_id"))
     is_like = Column(Boolean)
 
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    cafe = relationship("Cafe", back_populates="vote")
+    cafe = relationship("Cafe", back_populates="votes")
+    user = relationship("User", back_populates="votes")
 
 
-class Comment(Base):
+class Comment(Base, DBModelUtil):
     __tablename__ = "comment"
 
     comment_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -123,4 +129,13 @@ class Comment(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
-    cafe = relationship("Cafe", back_populates="comment")
+    cafe = relationship("Cafe", back_populates="comments")
+
+
+class User(Base, DBModelUtil):
+    __tablename__ = "user"
+    user_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+
+    votes = relationship("Vote", back_populates="user")
