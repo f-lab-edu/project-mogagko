@@ -14,7 +14,8 @@ class CafeService:
         return cafe
 
     def update_cafe(self, dto: CafeUpdateDTO, external_key):
-        cafe = Cafe(**dto.dict())
+        cafe_id = self._repo.extract_cafe_id(external_key)
+        cafe = Cafe(**dto.dict(), cafe_id=cafe_id)
         self._repo.update_cafe(cafe=cafe, external_key=external_key)
         return cafe
 

@@ -9,6 +9,7 @@ def generate_external_key():
 
 
 class Cafe(BaseModel):
+    cafe_id: int | None = None
     external_key: str = Field(default_factory=generate_external_key)
     name: str
     address: str | None = None
@@ -29,6 +30,7 @@ class Cafe(BaseModel):
 
 
 class Comment(BaseModel):
+    comment_id: int | None = None
     external_key: str = Field(default_factory=generate_external_key)
     comment: str
     created_at: datetime = Field(default_factory=datetime.utcnow)

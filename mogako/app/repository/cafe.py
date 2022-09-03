@@ -17,6 +17,10 @@ class CafeRepository:
         cafe.cafe_id = cafe_orm.cafe_id
         return cafe
 
+    def extract_cafe_id(self, external_key):
+        cafe_id = self.db.query(CafeORM).filter(CafeORM.external_key == external_key).first().cafe_id
+        return cafe_id
+
     def update_cafe(self, cafe: Cafe, external_key):
         self.db.query(CafeORM).filter(CafeORM.external_key == external_key).update(
             cafe.dict()
@@ -73,11 +77,7 @@ class CommentRepository:
         self.db = db
 
     def create_comment(self, comment: Comment, cafe_external_key):
-        cafe_orm = (
-            self.db.query(CafeORM)
-            .filter(CafeORM.external_key == cafe_external_key)
-            .first()
-        )
+        cafe_orm = self.db.query(CafeORM).filter(CafeORM.external_key == cafe_external_key).first()
         comment_orm = CommentORM(**comment.dict(), cafe_id=cafe_orm.cafe_id)
         self.db.add(comment_orm)
         self.db.commit()

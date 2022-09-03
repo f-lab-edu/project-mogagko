@@ -65,8 +65,8 @@ def update_cafe(
 
 
 @cafe_router.post("/{cafe_external_key}/comment", response_model=CommentCreateResponse)
-def update_cafe(
-    cafe_external_key: str, request: CommentCreateRequest, db: Session = Depends(get_db)
+def create_comment(
+        cafe_external_key: str, request: CommentCreateRequest, db: Session = Depends(get_db)
 ):
     service = CommentService(repo=CommentRepository(db=db))
     comment: Comment = service.create_comment(
