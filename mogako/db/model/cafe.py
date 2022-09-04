@@ -17,7 +17,7 @@ class Cafe(Base, DBModelUtil):
     external_key = Column(String(50), unique=True, index=True, nullable=False)
     name = Column(String(50), nullable=False)
     address = Column(String(258))
-    description = Column(String)
+    description = Column(String(512))
     latitude = Column(Float)
     longitude = Column(Float)
     city = Column(String(64))
@@ -43,9 +43,7 @@ class Cafe(Base, DBModelUtil):
 class OpeningDay(Base, DBModelUtil):
     __tablename__ = "opening_day"
 
-    opening_day_id = Column(
-        Integer, primary_key=True, index=True, autoincrement=True
-    )
+    opening_day_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
 
     cafe_id = Column(Integer, ForeignKey("cafe.cafe_id"))
     week = Column(String(32))
@@ -126,7 +124,7 @@ class Comment(Base, DBModelUtil):
     comment_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     external_key = Column(String(50), unique=True, index=True, nullable=False)
     cafe_id = Column(Integer, ForeignKey("cafe.cafe_id"))
-    comment = Column(String)
+    comment = Column(String(512))
     user_id = Column(Integer, ForeignKey("user.user_id"))
     created_at = Column(DateTime)
     updated_at = Column(DateTime)

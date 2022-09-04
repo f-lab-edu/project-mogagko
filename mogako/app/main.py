@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from mogako.app.api import api_router
 from mogako.app.config import conf
-from mogako.db.database import db
+from mogako.db.database import db, Base
 
 
 def create_app():
@@ -14,6 +14,7 @@ def create_app():
     app.include_router(api_router)
     conf_dict = asdict(c)
     db.init_app(app, **conf_dict)
+    Base.metadata.create_all(bind=db.engine)
     return app
 
 
