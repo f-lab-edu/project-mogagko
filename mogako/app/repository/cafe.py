@@ -18,7 +18,12 @@ class CafeRepository:
         return cafe
 
     def extract_cafe_id(self, external_key):
-        cafe_id = self.db.query(CafeORM).filter(CafeORM.external_key == external_key).first().cafe_id
+        cafe_id = (
+            self.db.query(CafeORM)
+            .filter(CafeORM.external_key == external_key)
+            .first()
+            .cafe_id
+        )
         return cafe_id
 
     def update_cafe(self, cafe: Cafe, external_key):
@@ -48,6 +53,7 @@ class CafeRepository:
     def create_vote(self, cafe_id: int, user_id: int, is_like: bool) -> Vote:
         vote_orm = VoteORM(cafe_id=cafe_id, user_id=user_id, is_like=is_like)
         self.db.add(vote_orm)
+        self._update_cafe_count_like(cafe_id=cafe_id, is_like=is_like)
         self.db.commit()
         self.db.refresh(vote_orm)
         return Vote(
@@ -56,17 +62,20 @@ class CafeRepository:
             is_like=vote_orm.is_like,
         )
 
+    def _update_cafe_count_like(self, cafe_id: int, is_like: bool):
+        self.db.query(CafeORM).filter_by(cafe_id=cafe_id).update(
+            {
+                "count_like": CafeORM.count_like + 1
+                if is_like
+                else CafeORM.count_like - 1
+            }
+        )
+
     def update_vote(self, vote: Vote):
         self.db.query(VoteORM).filter_by(
             cafe_id=vote.cafe_id, user_id=vote.user_id
         ).update({"is_like": vote.is_like})
-        self.db.query(CafeORM).filter_by(cafe_id=vote.cafe_id).update(
-            {
-                "count_like": CafeORM.count_like + 1
-                if vote.is_like
-                else CafeORM.count_like - 1
-            }
-        )
+        self._update_cafe_count_like(cafe_id=vote.cafe_id, is_like=vote.is_like)
         cafe_orm = self.db.query(CafeORM).filter_by(cafe_id=vote.cafe_id).first()
         self.db.commit()
         return Cafe(**cafe_orm.dict())
@@ -77,7 +86,11 @@ class CommentRepository:
         self.db = db
 
     def create_comment(self, comment: Comment, cafe_external_key):
-        cafe_orm = self.db.query(CafeORM).filter(CafeORM.external_key == cafe_external_key).first()
+        cafe_orm = (
+            self.db.query(CafeORM)
+            .filter(CafeORM.external_key == cafe_external_key)
+            .first()
+        )
         comment_orm = CommentORM(**comment.dict(), cafe_id=cafe_orm.cafe_id)
         self.db.add(comment_orm)
         self.db.commit()
