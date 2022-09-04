@@ -60,7 +60,7 @@ class SQLAlchemy:
 
     @property
     def session(self):
-        return self.get_db
+        return self.get_db()
 
     @property
     def engine(self):
