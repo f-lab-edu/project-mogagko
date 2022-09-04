@@ -18,21 +18,13 @@ from mogako.app.entity.cafe import Cafe, Comment
 
 from mogako.app.repository.cafe import CafeRepository, CommentRepository
 from mogako.app.service.cafe import CafeService, CommentService
-from mogako.db.database import SessionLocal
+from mogako.db.database import db
 
 cafe_router = APIRouter()
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
 @cafe_router.post("", response_model=CafeResponse)
-def creat_cafe(request: CafeCreateRequest, db: Session = Depends(get_db)):
+def creat_cafe(request: CafeCreateRequest, db: Session = Depends(db.session)):
     service = CafeService(repo=CafeRepository(db=db))
     cafe: Cafe = service.create_cafe(dto=CafeCreateDTO(**request.dict()))
     return CafeResponse(**cafe.dict(exclude={"id"}))
@@ -40,7 +32,7 @@ def creat_cafe(request: CafeCreateRequest, db: Session = Depends(get_db)):
 
 @cafe_router.post("/{cafe_external_key}/vote", response_model=CafeResponse)
 def vote_cafe(
-    request: VoteRequest, cafe_external_key: str, db: Session = Depends(get_db)
+    request: VoteRequest, cafe_external_key: str, db: Session = Depends(db.session)
 ):
     service = CafeService(repo=CafeRepository(db=db))
     cafe: Cafe = service.vote(
@@ -55,7 +47,7 @@ def vote_cafe(
 
 @cafe_router.patch("/{external_key}", response_model=CafeResponse)
 def update_cafe(
-    external_key: str, request: CafeUpdateRequest, db: Session = Depends(get_db)
+    external_key: str, request: CafeUpdateRequest, db: Session = Depends(db.session)
 ):
     service = CafeService(repo=CafeRepository(db=db))
     cafe: Cafe = service.update_cafe(
@@ -66,7 +58,9 @@ def update_cafe(
 
 @cafe_router.post("/{cafe_external_key}/comment", response_model=CommentCreateResponse)
 def create_comment(
-        cafe_external_key: str, request: CommentCreateRequest, db: Session = Depends(get_db)
+    cafe_external_key: str,
+    request: CommentCreateRequest,
+    db: Session = Depends(db.session),
 ):
     service = CommentService(repo=CommentRepository(db=db))
     comment: Comment = service.create_comment(

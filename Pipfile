@@ -13,6 +13,7 @@ mypy = "*"
 pytest = "*"
 pydantic = "*"
 sqlalchemy = "*"
+pymysql = "*"
 
 [dev-packages]
 
