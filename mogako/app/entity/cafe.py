@@ -27,3 +27,11 @@ class Cafe(BaseModel):
     count_like: int | None = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class Comment(BaseModel):
+    comment_id: int | None = None
+    external_key: str = Field(default_factory=generate_external_key)
+    comment: str
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)

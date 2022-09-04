@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 
-from mogako.app.entity.cafe import Cafe
+from mogako.app.entity.cafe import Cafe, Comment
 from mogako.app.entity.vote import Vote
-from mogako.db.model.cafe import Cafe as CafeORM, Vote as VoteORM
+from mogako.db.model.cafe import Cafe as CafeORM, Vote as VoteORM, Comment as CommentORM
 
 
 class CafeRepository:
@@ -15,6 +15,17 @@ class CafeRepository:
         self.db.commit()
         self.db.refresh(cafe_orm)
         cafe.cafe_id = cafe_orm.cafe_id
+        return cafe
+
+    def extract_cafe_id(self, external_key):
+        cafe_id = self.db.query(CafeORM).filter(CafeORM.external_key == external_key).first().cafe_id
+        return cafe_id
+
+    def update_cafe(self, cafe: Cafe, external_key):
+        self.db.query(CafeORM).filter(CafeORM.external_key == external_key).update(
+            cafe.dict()
+        )
+        self.db.commit()
         return cafe
 
     def get_cafe(self, external_key: str) -> Cafe:
@@ -59,3 +70,16 @@ class CafeRepository:
         cafe_orm = self.db.query(CafeORM).filter_by(cafe_id=vote.cafe_id).first()
         self.db.commit()
         return Cafe(**cafe_orm.dict())
+
+
+class CommentRepository:
+    def __init__(self, db: Session):
+        self.db = db
+
+    def create_comment(self, comment: Comment, cafe_external_key):
+        cafe_orm = self.db.query(CafeORM).filter(CafeORM.external_key == cafe_external_key).first()
+        comment_orm = CommentORM(**comment.dict(), cafe_id=cafe_orm.cafe_id)
+        self.db.add(comment_orm)
+        self.db.commit()
+        self.db.refresh(comment_orm)
+        return comment
