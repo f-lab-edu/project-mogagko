@@ -6,21 +6,34 @@ https://docs.python.org/3/library/functools.html#functools.lru_cache
 
 """
 import logging
-import os
-from functools import lru_cache
-
-from pydantic import BaseSettings
+from os import path, environ
+from dataclasses import dataclass
 
 
 log = logging.getLogger("uvicorn")
 
-
-class Settings(BaseSettings):
-    environment = os.getenv("ENVIRONMENT", "dev")
-    testing = os.getenv("TESTING", 0)
+base_dir = path.dirname(path.dirname(path.abspath(__file__)))
 
 
-@lru_cache()
-def get_settings() -> BaseSettings:
-    log.info("Loading config settings from the environment...")
-    return Settings()
+@dataclass
+class Config:
+    BASE_DIR = base_dir
+    DB_POOL_RECYCLE: int = 900
+    DB_ECHO: bool = True
+
+
+@dataclass
+class LocalConfig(Config):
+    PROJ_RELOAD: bool = True
+    DB_URL: str = "sqlite:///./sql_app.db"
+
+
+@dataclass
+class DevConfig(Config):
+    PROJ_RELOAD: bool = False
+    DB_URL: str = "mysql+pymysql://db_manager:dpvmfoq1A@db-bj72i.pub-cdb.ntruss.com/mogagko-db?charset=utf8mb4"
+
+
+def conf():
+    config = dict(dev=DevConfig(), local=LocalConfig())
+    return config.get(environ.get("ENVIRONMENT", "local"))
