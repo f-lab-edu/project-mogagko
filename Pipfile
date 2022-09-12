@@ -14,6 +14,7 @@ pytest = "*"
 pydantic = "*"
 sqlalchemy = "*"
 pymysql = "*"
+alembic = "*"
 
 [dev-packages]
 
