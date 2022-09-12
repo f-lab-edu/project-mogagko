@@ -25,7 +25,7 @@ class Config:
 @dataclass
 class LocalConfig(Config):
     PROJ_RELOAD: bool = True
-    DB_URL: str = "sqlite:///./sql_app.db"
+    DB_URL: str = "mysql+pymysql://root:root@127.0.0.1:3307/mogako?charset=utf8mb4"
 
 
 @dataclass
