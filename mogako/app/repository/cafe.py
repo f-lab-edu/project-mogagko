@@ -63,12 +63,10 @@ class CafeRepository:
         )
 
     def _update_cafe_count_like(self, cafe_id: int, is_like: bool):
-        self.db.query(CafeORM).filter_by(cafe_id=cafe_id).update(
-            {
-                "count_like": CafeORM.count_like + 1
-                if is_like
-                else CafeORM.count_like - 1
-            }
+        q = self.db.query(VoteORM).filter_by(cafe_id=cafe_id, is_like=True)
+        total_count_like = q.count()
+        self.db.query(CafeORM).filter(CafeORM.cafe_id == cafe_id).update(
+            {"count_like": total_count_like}
         )
 
     def update_vote(self, vote: Vote):
