@@ -20,8 +20,8 @@ jobs:
         with:
           # Remove the following line if you want to
           # login to docker hub.
-          registry: github.com/f-lab-edu/project-mogagko.git
-          username: ${{ secrets.repository_username }}
+          registry: ghcr.io
+          username: ${{ secrets.docker_hub_username }}
           # secrets are GitHub actions that can be added
           # from settings of the repo.
           password: ${{ secrets.CR_PAT }}
@@ -30,7 +30,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          push: true
+          push: false
           tags: ghcr.io/owner/fastapi_server:v1
 
   
