@@ -39,6 +39,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # SSH into the server
+      # Login to docker
+      # This can be used for both Docker Hub and
+      # GitHub container registry.
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          # Remove the following line if you want to
+          # login to docker hub.
+          username: ${{ secrets.docker_hub_username }}
+          # secrets are GitHub actions that can be added
+          # from settings of the repo.
+          password: ${{ secrets.CR_PAT }}
+      
       - name: SSH into server
         uses: appleboy/ssh-action@master
         with:
