@@ -14,6 +14,6 @@ RUN pip install pipenv && pipenv install --system
 EXPOSE 8000
 
 
-# fastapi 실행 6
+# fastapi 실행 7
 CMD ["/usr/bin/python", "mogako/app/main.py"]
 #CMD ["uvicorn", "mogako.app.main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
