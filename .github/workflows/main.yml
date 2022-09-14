@@ -20,7 +20,7 @@ jobs:
         with:
           # Remove the following line if you want to
           # login to docker hub.
-          registry: project-mogagko
+          registry: github.com/f-lab-edu/project-mogagko.git
           username: ${{ secrets.repository_username }}
           # secrets are GitHub actions that can be added
           # from settings of the repo.
