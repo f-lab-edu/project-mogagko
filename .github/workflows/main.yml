@@ -64,4 +64,5 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           # The private ssh key in order to get access
           key: ${{ secrets.KEY }}
+          passphrase: ${{ secrets.SERVER_PASSWORD }}
           script: docker pull ghcr.io/owner/fastapi_server:v1 && docker run ghcr.io/owner/fastapi_server:v1
