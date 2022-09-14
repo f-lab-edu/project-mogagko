@@ -20,7 +20,6 @@ jobs:
         with:
           # Remove the following line if you want to
           # login to docker hub.
-          registry: ghcr.io
           username: ${{ secrets.docker_hub_username }}
           # secrets are GitHub actions that can be added
           # from settings of the repo.
