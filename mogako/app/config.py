@@ -37,7 +37,6 @@ class LocalConfig(Config):
 @dataclass
 class DevConfig(Config):
     PROJ_RELOAD: bool = False
-    DB_URL: str = "mysql+pymysql://db_manager:dpvmfoq1A@db-bj72i.pub-cdb.ntruss.com/mogagko-db?charset=utf8mb4"
 
 
 def conf():
