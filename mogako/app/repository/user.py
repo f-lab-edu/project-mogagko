@@ -32,5 +32,6 @@ class UserRepository:
                 login_id=user_orm.login_id,
                 password=user_orm.password,
                 nickname=user_orm.nickname,
+                is_staff=user_orm.is_staff,
             )
         return None
