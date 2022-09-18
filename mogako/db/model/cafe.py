@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Integer
+from sqlalchemy import Boolean, Column, Integer, JSON
 from sqlalchemy import String, Float, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 
@@ -135,6 +135,12 @@ class Comment(Base, DBModelUtil):
 class User(Base, DBModelUtil):
     __tablename__ = "user"
     user_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    login_id = Column(String(50), unique=True, index=True, nullable=False)
+    password = Column(String(128), nullable=False)
+    nickname = Column(String(64), nullable=True)
+    is_staff = Column(Boolean, default=False)
+    authorizations = Column(JSON, default={}, nullable=False)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
+
     votes = relationship("Vote", back_populates="user")
