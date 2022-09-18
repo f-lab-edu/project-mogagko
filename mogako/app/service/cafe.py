@@ -26,11 +26,14 @@ class CafeService:
             vote = self._repo.create_vote(
                 cafe_id=cafe.cafe_id, user_id=dto.user_id, is_like=dto.is_like
             )
+            cafe = self._repo.get_cafe(external_key=dto.cafe_external_key)
 
-        if vote.is_like != dto.is_like:
+        elif vote.is_like != dto.is_like:
             vote.is_like = dto.is_like
             cafe = self._repo.update_vote(vote=vote)
+
         return cafe
+
 
 class CommentService:
     def __init__(self, repo: CommentRepository):
