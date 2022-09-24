@@ -38,20 +38,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # SSH into the server
-      - name: SSH into server
-        uses: appleboy/ssh-action@master
-        with:
-          # The server IP of our VPS from DigitalOcean
-          # or any other provider. This is again
-          # passed in as a secret.
-          host: ${{ secrets.HOST }}
-          port: ${{ secrets.PORT }}
-          # Username of the user sshing into the server
-          username: ${{ secrets.SERVER_USERNAME }}
-          # The private ssh key in order to get access
-          key: ${{ secrets.KEY }}
-          script: docker pull ${{ secrets.hub_name }}/fastapi-server:test && docker run ${{ secrets.hub_name }}/fastapi-server:test
-      
       - name: Create SSH key
         run: |
           mkdir -p ~/.ssh/
@@ -70,6 +56,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: whoami
+          script: whoami && docker pull ${{ secrets.hub_name }}/fastapi-server:test && docker run ${{ secrets.hub_name }}/fastapi-server:test
+
 
 
