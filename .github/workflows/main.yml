@@ -40,10 +40,9 @@ jobs:
       # SSH into the server          
       - name: executing remote ssh commands using ssh key
         run: |
-          echo "hello"
-          echo "{{ secrets.ca_pem }}" > ca.pem
-          echo "{{ secrets.cert_pem }}" > cert.pem
-          echo "{{ secrets.key_pem }}" > key.pem
+          echo {{ secrets.ca_pem }} > ca.pem
+          echo {{ secrets.cert_pem }} > cert.pem
+          echo {{ secrets.key_pem }} > key.pem
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test
           env:
