@@ -51,6 +51,14 @@ jobs:
           # The private ssh key in order to get access
           key: ${{ secrets.KEY }}
           script: docker pull ${{ secrets.hub_name }}/fastapi-server:test && docker run ${{ secrets.hub_name }}/fastapi-server:test
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: whoami
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
@@ -60,11 +68,4 @@ jobs:
           port: ${{ secrets.PORT }}
           script: whoami
 
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script: whoami
+
