@@ -41,13 +41,10 @@ jobs:
       - name: Create SSH key
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ../private.key
+          echo ${{secrets.SSH_PRIVATE_KEY}} > ../private.key
           sudo chmod 600 ../private.key
-          ssh-keyscan -H "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh-keyscan -H ${{secrets.SSH_KNOWN_HOSTS}} > ~/.ssh/known_hosts
         shell: bash
-        env:
-          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
           
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
