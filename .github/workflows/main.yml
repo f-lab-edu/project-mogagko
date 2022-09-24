@@ -32,7 +32,7 @@ jobs:
           context: .
           push: true
           tags: fastapi-server:latest
-  # Name of the job is deploy
+  #  Name of the job is deploy
   deploy:
     needs: example-job
     runs-on: ubuntu-latest
