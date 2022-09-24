@@ -3,10 +3,10 @@ name: Build API and Deploy
 on:
   push:
     branches:
-      - "develop"
+      - "test/git-action-test"
 
 jobs:
-  checkout-code-build-image-job:
+  example-job:
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
@@ -20,38 +20,24 @@ jobs:
         with:
           # Remove the following line if you want to
           # login to docker hub.
-          username: ${{ secrets.docker_hub_username }}
+          registry: f-lab-container-registry.kr.ncr.ntruss.com
+          username: ${{ secrets.registry_user }}
           # secrets are GitHub actions that can be added
           # from settings of the repo.
-          password: ${{ secrets.CR_PAT }}
+          password: ${{ secrets.registry_password }}
       # Build the docker image and push it.
       - name: Build image
         uses: docker/build-push-action@v2
         with:
           context: .
-          push: false
-          tags: ghcr.io/owner/fastapi_server:v1
-
-  
+          push: true
+          tags: fastapi-server:latest
   # Name of the job is deploy
   deploy:
-    needs: checkout-code-build-image-job
+    needs: example-job
     runs-on: ubuntu-latest
     steps:
       # SSH into the server
-      # Login to docker
-      # This can be used for both Docker Hub and
-      # GitHub container registry.
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          # Remove the following line if you want to
-          # login to docker hub.
-          username: ${{ secrets.docker_hub_username }}
-          # secrets are GitHub actions that can be added
-          # from settings of the repo.
-          password: ${{ secrets.CR_PAT }}
-      
       - name: SSH into server
         uses: appleboy/ssh-action@master
         with:
@@ -64,4 +50,28 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           # The private ssh key in order to get access
           key: ${{ secrets.KEY }}
-          script:  ${{ secrets.SERVER_PASSWORD }} && docker pull ghcr.io/owner/fastapi_server:v1 && docker run ghcr.io/owner/fastapi_server:v1
+          script: docker pull fastapi-server:latest && docker run fastapi-server:latest
+      - name: executing remote ssh commands using ssh key 
+        uses: appleboy/ssh-action@master 
+        with: 
+          host: ${{ secrets.HOST }} 
+          username: ${{ secrets.SERVER_USERNAME }} 
+          key: ${{ secrets.KEY }} 
+          port: ${{ secrets.PORT }} 
+          script: whoami 
+
+      - name: executing remote ssh commands using password 
+        uses: appleboy/ssh-action@master 
+        with: 
+          host: ${{ secrets.HOST }} 
+          username: ${{ secrets.SERVER_USERNAME }} 
+          password: ${{ secrets.SERVER_PASSWORD }} 
+          port: ${{ secrets.PORT }} 
+          script: whoami 
+
+
+
+
+
+
+
