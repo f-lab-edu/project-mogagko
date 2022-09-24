@@ -37,21 +37,13 @@ jobs:
     needs: example-job
     runs-on: ubuntu-latest
     steps:
-      # SSH into the server
-      - name: Create SSH key
-        run: |
-          mkdir -p ~/.ssh/
-          echo ${{secrets.SSH_PRIVATE_KEY}} > ../private.key
-          sudo chmod 600 ../private.key
-          ssh-keyscan -H ${{secrets.SSH_KNOWN_HOSTS}} > ~/.ssh/known_hosts
-        shell: bash
-          
+      # SSH into the server          
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.KEY }}
+          password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: whoami && docker pull ${{ secrets.hub_name }}/fastapi-server:test && docker run ${{ secrets.hub_name }}/fastapi-server:test
 
