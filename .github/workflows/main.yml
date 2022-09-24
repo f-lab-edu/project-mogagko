@@ -3,7 +3,7 @@ name: Build API and Deploy
 on:
   push:
     branches:
-      - "/test/git-action-test"
+      - "/test/git-action-test-1"
 
 jobs:
   example-job:
@@ -51,20 +51,20 @@ jobs:
           # The private ssh key in order to get access
           key: ${{ secrets.KEY }}
           script: docker pull fastapi-server:latest && docker run fastapi-server:latest
-      - name: executing remote ssh commands using ssh key 
-        uses: appleboy/ssh-action@master 
-        with: 
-          host: ${{ secrets.HOST }} 
-          username: ${{ secrets.SERVER_USERNAME }} 
-          key: ${{ secrets.KEY }} 
-          port: ${{ secrets.PORT }} 
-          script: whoami 
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: whoami
 
-      - name: executing remote ssh commands using password 
-        uses: appleboy/ssh-action@master 
-        with: 
-          host: ${{ secrets.HOST }} 
-          username: ${{ secrets.SERVER_USERNAME }} 
-          password: ${{ secrets.SERVER_PASSWORD }} 
-          port: ${{ secrets.PORT }} 
-          script: whoami 
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: whoami
