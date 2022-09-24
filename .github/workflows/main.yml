@@ -39,13 +39,9 @@ jobs:
     steps:
       # SSH into the server          
       - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script: docker pull ${{ secrets.hub_name }}/fastapi-server:test && docker run ${{ secrets.hub_name }}/fastapi-server:test
+        run: |
+         docker --tlsverify --tlscacert=${{ ca_pem }} --tlscert=${{ secrets.cert_pem }} --tlskey=${{ secrets.key_pem }} -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
+         docker --tlsverify --tlscacert=${{ ca_pem }} --tlscert=${{ secrets.cert_pem }} --tlskey=${{ secrets.key_pem }} -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test
 
-
+ 
 
