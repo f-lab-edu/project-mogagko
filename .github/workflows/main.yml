@@ -40,6 +40,9 @@ jobs:
       # SSH into the server          
       - name: executing remote ssh commands using ssh key
         run: |
+        
+        
+          echo $ca_pem
           echo "{{ secrets.ca_pem }}" | base64 --decode > ca.pem
           echo "{{ secrets.cert_pem }}" | base64 --decode > cert.pem
           echo "{{ secrets.key_pem }}" | base64 --decode > key.pem
