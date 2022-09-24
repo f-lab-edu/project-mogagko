@@ -31,7 +31,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: fastapi-server:test
+          tags: ${{ secrets.registry_user }}/fastapi-server:test
   #  Name of the job is deploy
   deploy:
     needs: example-job
@@ -50,7 +50,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           # The private ssh key in order to get access
           key: ${{ secrets.KEY }}
-          script: docker pull fastapi-server:test && docker run fastapi-server:test
+          script: docker pull ${{ secrets.registry_user }}/fastapi-server:test && docker run ${{ secrets.registry_user }}/fastapi-server:test
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
