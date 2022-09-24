@@ -54,8 +54,20 @@ jobs:
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
           echo "${{ secrets.KEY_PEM }}" > key.pem
+          
+          
+          ENVIRONMENT="${{ secrets.ENVIRONMENT }}" >> .env
+          DB_USER="${{ secrets.DB_USER }}" >> .env
+          ENVIRONMENT="${{ secrets.ENVIRONMENT }}" >> .env
+          DB_PASSWORD="${{ secrets.DB_PASSWORD }}" >> .env
+          DB_HOST="${{ secrets.DB_HOST }}" >> .env
+          DB_PORT="${{ secrets.DB_PORT }}" >> .env
+          DB_NAME="${{ secrets.DB_NAME }}" >> .env
+          JWT_SECRET="${{ secrets.JWT_SECRET }}" >> .env
+          JWT_ALGORITHM="${{ secrets.JWT_ALGORITHM }}" >> .env
+          
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test
           
-        shell: bash
+       shell: bash
 
