@@ -46,8 +46,8 @@ jobs:
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test
           env:
-           ca_pem:${{ secrets.ca_pem }}
-           cert_pem:${{ secrets.cert_pem }}
-           key_pem:${{ secrets.key_pem }}
-
+           ca_pem: ${{ secrets.ca_pem }}
+           cert_pem: ${{ secrets.cert_pem }}
+           key_pem: ${{ secrets.key_pem }}
+        shell: bash
 
