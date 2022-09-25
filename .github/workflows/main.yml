@@ -62,6 +62,6 @@ jobs:
           echo JWT_SECRET="${{ secrets.JWT_SECRET }}" >> .env
           echo JWT_ALGORITHM="${{ secrets.JWT_ALGORITHM }}" >> .env
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run --env-file .env ${{ secrets.hub_name }}/fastapi-server:test 
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test 
         shell: bash
 
