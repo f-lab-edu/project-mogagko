@@ -54,13 +54,13 @@ jobs:
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
           echo "${{ secrets.KEY_PEM }}" > key.pem
-          export ENVIRONMENT=${{ secrets.ENVIRONMENT }}
-          export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-          export DB_USER=${{ secrets.DB_USER }}
-          export DB_NAME=${{ secrets.DB_NAME }}
-          export DB_PORT=${{ secrets.DB_PORT }}
-          export JWT_SECRET=${{ secrets.JWT_SECRET }}
-          export JWT_ALGORITHM = ${{ secrets.JWT_ALGORITHM }}
+          export ENVIRONMENT="${{ secrets.ENVIRONMENT }}"
+          export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+          export DB_USER="${{ secrets.DB_USER }}"
+          export DB_NAME="${{ secrets.DB_NAME }}"
+          export DB_PORT="${{ secrets.DB_PORT }}"
+          export JWT_SECRET="${{ secrets.JWT_SECRET }}"
+          export JWT_ALGORITHM="${{ secrets.JWT_ALGORITHM }}"
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test
     
