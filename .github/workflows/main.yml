@@ -50,6 +50,15 @@ jobs:
     
       # SSH into the server          
       - name: executing remote ssh commands using ssh key
+        env:
+          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_ALGORITHM: ${{ secrets.JWT_ALGORITHM }}
         run: |
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
@@ -60,22 +69,10 @@ jobs:
           echo $DB_PORT
           echo $DB_NAME
           echo $JWT_SECRET
-
           echo $JWT_ALGORITHM
-
-
-
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test
-        env:
-          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_ALGORITHM: ${{ secrets.JWT_ALGORITHM }}
+
 
 
         shell: bash
