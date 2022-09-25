@@ -14,5 +14,6 @@ RUN pip install pipenv && pipenv install --system
 EXPOSE 8000
 
 
+
 # fastapi 실행
-CMD ["/usr/bin/python", "mogako/app/main.py"]
+CMD ["/usr/local/bin/python", "mogako/app/main.py"]
