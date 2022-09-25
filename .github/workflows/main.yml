@@ -47,14 +47,14 @@ jobs:
           # secrets are GitHub actions that can be added
           # from settings of the repo.
           password: ${{ secrets.registry_password }}
-    
-      # SSH into the server          
+
+      # SSH into the server
       - name: executing remote ssh commands using ssh key
         run: |
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
           echo "${{ secrets.KEY_PEM }}" > key.pem
-          
+
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test
         env:
@@ -69,4 +69,3 @@ jobs:
 
 
         shell: bash
-
