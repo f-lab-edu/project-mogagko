@@ -54,14 +54,14 @@ jobs:
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
           echo "${{ secrets.KEY_PEM }}" > key.pem
-          export ENVIRONMENT="${{ secrets.ENVIRONMENT }}"
-          export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
-          export DB_USER="${{ secrets.DB_USER }}"
-          export DB_NAME="${{ secrets.DB_NAME }}"
-          export DB_PORT="${{ secrets.DB_PORT }}"
-          export JWT_SECRET="${{ secrets.JWT_SECRET }}"
-          export JWT_ALGORITHM="${{ secrets.JWT_ALGORITHM }}"
+          echo ENVIRONMENT="${{ secrets.ENVIRONMENT }}" >> .env
+          echo DB_PASSWORD="${{ secrets.DB_PASSWORD }}" >> .env
+          echo DB_USER="${{ secrets.DB_USER }}" >> .env
+          echo DB_NAME="${{ secrets.DB_NAME }}" >> .env
+          echo DB_PORT="${{ secrets.DB_PORT }}" >> .env
+          echo JWT_SECRET="${{ secrets.JWT_SECRET }}" >> .env
+          echo JWT_ALGORITHM="${{ secrets.JWT_ALGORITHM }}" >> .env
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -e ENVIRONMENT="${{ secrets.ENVIRONMENT }}" -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" -e DB_USER="${{ secrets.DB_USER }}" -e DB_NAME="${{ secrets.DB_NAME }}" -e DB_PORT="${{ secrets.DB_PORT }}" -e JWT_SECRET="${{ secrets.JWT_SECRET }}" -e JWT_ALGORITHM="${{ secrets.JWT_ALGORITHM }}" ${{ secrets.hub_name }}/fastapi-server:test 
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run --env-file .env ${{ secrets.hub_name }}/fastapi-server:test 
         shell: bash
 
