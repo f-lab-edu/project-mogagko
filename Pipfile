@@ -17,6 +17,7 @@ pymysql = "*"
 alembic = "*"
 python-jose = {extras = ["cryptography"], version = "*"}
 passlib = {extras = ["bcrypt"], version = "*"}
+jwt = "*"
 
 [dev-packages]
 
