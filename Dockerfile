@@ -11,6 +11,23 @@ COPY . /app
 WORKDIR /app
 
 ENV PYTHONPATH /app
+ENV ENVIRONMENT $(cat /run/secrets/ENVIRONMENT)
+ENV ENVIRONMENT $(cat /run/secrets/ENVIRONMENT)
+ENV ENVIRONMENT $(cat /run/secrets/ENVIRONMENT)
+ENV ENVIRONMENT $(cat /run/secrets/ENVIRONMENT)
+ENV ENVIRONMENT $(cat /run/secrets/ENVIRONMENT)
+
+ENV PYTHONPATH /app
+
+
+RUN export ENVIRONMENT=$(cat /run/secrets/ENVIRONMENT) && \
+  export DB_PASSWORD=$(cat /run/secrets/DB_PASSWORD) && \
+  export DB_NAME=$(cat /run/secrets/DB_NAME) && \
+  export DB_PORT=$(cat /run/secrets/DB_PORT) && \
+  export JWT_SECRET=$(cat /run/secrets/JWT_SECRET) && \
+  export JWT_ALGORITHM=$(cat /run/secrets/JWT_ALGORITHM)
+
+
 
 
 # pipenv 설치 및 라이브러리 설치
