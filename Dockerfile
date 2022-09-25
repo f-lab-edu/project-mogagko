@@ -11,14 +11,6 @@ COPY . /app
 WORKDIR /app
 
 ENV PYTHONPATH /app
-ENV ENVIRONMENT $(cat /run/secrets/ENVIRONMENT)
-ENV ENVIRONMENT $(cat /run/secrets/ENVIRONMENT)
-ENV ENVIRONMENT $(cat /run/secrets/ENVIRONMENT)
-ENV ENVIRONMENT $(cat /run/secrets/ENVIRONMENT)
-ENV ENVIRONMENT $(cat /run/secrets/ENVIRONMENT)
-
-ENV PYTHONPATH /app
-
 
 RUN export ENVIRONMENT=$(cat /run/secrets/ENVIRONMENT) && \
   export DB_PASSWORD=$(cat /run/secrets/DB_PASSWORD) && \
