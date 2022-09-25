@@ -31,7 +31,15 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.hub_name }}/fastapi-server:test2
+          tags: ${{ secrets.hub_name }}/fastapi-server:test3
+          build-args:
+            ENVIRONMENT=${{ secrets.ENVIRONMENT }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            DB_HOST=${{ secrets.DB_HOST }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            JWT_ALGORITHM=${{ secrets.JWT_ALGORITHM }}
+        
   #  Name of the job is deploy
   deploy:
     needs: example-job
@@ -54,8 +62,8 @@ jobs:
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
           echo "${{ secrets.KEY_PEM }}" > key.pem
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test2
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test2
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test3
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test3
 
 
 
