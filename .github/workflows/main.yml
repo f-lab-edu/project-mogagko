@@ -31,7 +31,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.hub_name }}/fastapi-server:test3
+          tags: ${{ secrets.hub_name }}/fastapi-server:test
           build-args: |
             ENVIRONMENT=${{ secrets.ENVIRONMENT }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
@@ -62,8 +62,8 @@ jobs:
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
           echo "${{ secrets.KEY_PEM }}" > key.pem
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test3
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test3
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run ${{ secrets.hub_name }}/fastapi-server:test
 
 
 
