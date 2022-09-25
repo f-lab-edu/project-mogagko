@@ -66,7 +66,6 @@ jobs:
           DB_NAME: ${{ secrets.DB_NAME }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_ALGORITHM: ${{ secrets.JWT_ALGORITHM }}
-          PYTHONPATH: '.'
 
 
         shell: bash
