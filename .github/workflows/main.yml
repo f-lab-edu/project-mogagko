@@ -32,7 +32,7 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.hub_name }}/fastapi-server:test3
-          build-args:
+          build-args:|
             ENVIRONMENT=${{ secrets.ENVIRONMENT }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             DB_NAME=${{ secrets.DB_NAME }}
