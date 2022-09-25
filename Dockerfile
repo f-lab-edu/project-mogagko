@@ -1,22 +1,22 @@
-ARG ENVIRONMENT
-ARG DB_PASSWORD
-ARG DB_NAME
-ARG DB_HOST
-ARG JWT_SECRET
-ARG JWT_ALGORITHM
-
 # 파이썬 baseimage 선택
 From python:3.10
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-ENV ENVIRONMENT=$ENVIRONMENT
-ENV DB_PASSWORD=$DB_PASSWORD
-ENV DB_NAME=$DB_NAME
-ENV DB_HOST=$DB_HOST
-ENV JWT_SECRET=$JWT_SECRET
-ENV JWT_ALGORITHM=$JWT_ALGORITHM
+
+RUN --mount=type=secret,id=ENVIRONMENT \
+  --mount=type=secret,id=DB_PASSWORD \
+  --mount=type=secret,id=DB_NAME \
+  --mount=type=secret,id=DB_HOST \
+  --mount=type=secret,id=JWT_SECRET \
+  --mount=type=secret,id=JWT_ALGORITHM \
+  export ENVIRONMENT=$(cat /run/secrets/ENVIRONMENT) && \
+  export DB_PASSWORD=$(cat /run/secrets/DB_PASSWORD) && \
+  export DB_NAME=$(cat /run/secrets/DB_NAME) && \
+  export DB_HOST=$(cat /run/secrets/DB_HOST) && \
+  export DB_HOST=$(cat /run/secrets/JWT_SECRET) && \
+  export DB_HOST=$(cat /run/secrets/JWT_ALGORITHM)
 
 
 # 모든 파일 docker container ./app로 COPY
