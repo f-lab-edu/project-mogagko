@@ -54,14 +54,14 @@ jobs:
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
           echo "${{ secrets.KEY_PEM }}" > key.pem
-          echo "$ENVIRONMENT"
-          echo "$DB_PASSWORD"
-          echo "$DB_USER"
-          echo "$DB_PORT"
-          echo "$DB_NAME"
-          echo "$JWT_SECRET"
+          echo $ENVIRONMENT
+          echo $DB_PASSWORD
+          echo $DB_USER
+          echo $DB_PORT
+          echo $DB_NAME
+          echo $JWT_SECRET
 
-          echo "$JWT_ALGORITHM"
+          echo $JWT_ALGORITHM
 
 
 
