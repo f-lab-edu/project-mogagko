@@ -37,7 +37,6 @@ jobs:
           push: true
           tags: ${{ secrets.hub_name }}/fastapi-server:test
           
-        environment:
           ENVIRONMENT: "${{ secrets.ENVIRONMENT }}"
           B_PASSWORD: "${{ secrets.DB_PASSWORD }}"
           DB_USER: "${{ secrets.DB_USER }}"
