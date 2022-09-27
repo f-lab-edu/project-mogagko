@@ -12,7 +12,7 @@ env:
   DB_HOST: ${{ secrets.DB_HOST }}
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
   JWT_ALGORITHM: ${{ secrets.JWT_ALGORITHM }}
-        
+
 
 
 jobs:
@@ -65,6 +65,8 @@ jobs:
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
           echo "${{ secrets.KEY_PEM }}" > key.pem
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull -d ${{ secrets.hub_name }}/fastapi-server:test
+
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d ${{ secrets.hub_name }}/fastapi-server:test
 
 
