@@ -5,14 +5,7 @@ on:
     branches:
       - "test/git-action-test-1"
 
-env:
-  ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-  B_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  DB_USER: ${{ secrets.DB_USER }}
-  DB_NAME: ${{ secrets.DB_NAME }}
-  DB_HOST: ${{ secrets.DB_HOST }}
-  JWT_SECRET: ${{ secrets.JWT_SECRET }}
-  JWT_ALGORITHM: ${{ secrets.JWT_ALGORITHM }}
+
 
 
 
@@ -43,6 +36,18 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.hub_name }}/fastapi-server:test
+          secrets: |
+            "ENVIRONMENT=${{ secrets.ENVIRONMENT }}"
+            "DB_PORT=${{ secrets.DB_PORT }}"
+
+            "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
+            "DB_USER=${{ secrets.DB_USER }}"
+            "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
+            "DB_NAME=${{ secrets.DB_NAME }}"
+            "DB_HOST=${{ secrets.DB_HOST }}"
+            "JWT_SECRET=${{ secrets.JWT_SECRET }}"
+            "JWT_ALGORITHM=${{ secrets.JWT_ALGORITHM }}"
+
 
   #  Name of the job is deploy
   deploy:
@@ -59,7 +64,6 @@ jobs:
           # secrets are GitHub actions that can be added
           # from settings of the repo.
           password: ${{ secrets.registry_password }}
-
       # SSH into the server
       - name: executing remote ssh commands using ssh key
         run: |
