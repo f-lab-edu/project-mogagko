@@ -36,17 +36,7 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.hub_name }}/fastapi-server:test
-        env:
-          ENVIRONMENT: "${{ secrets.ENVIRONMENT }}"
-          DB_PORT: "${{ secrets.DB_PORT }}"
-          DB_PASSWORD: "${{ secrets.DB_PASSWORD }}"
-          DB_USER: "${{ secrets.DB_USER }}"
-          DB_NAME: "${{ secrets.DB_NAME }}"
-          DB_HOST: "${{ secrets.DB_HOST }}"
-          JWT_SECRET: "${{ secrets.JWT_SECRET }}"
-          JWT_ALGORITHM: "${{ secrets.JWT_ALGORITHM }}"
-          AWS_ACCESS_KEY_ID: "${{secrets.AWS_ACCESS_KEY_ID}}"
-            
+
 
 
   #  Name of the job is deploy
@@ -70,9 +60,18 @@ jobs:
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
           echo "${{ secrets.KEY_PEM }}" > key.pem
+          echo ENVIRONMENT=secrets.ENVIRONMENT >> .env
+          echo DB_PORT=secrets.DB_PORT >> .env
+          echo DB_PASSWORD=secrets.DB_PASSWORD >> .env
+          echo DB_USER=secrets.DB_USER >> .env
+          echo DB_NAME=secrets.DB_NAME >> .env
+          echo DB_HOST=secrets.DB_HOST >> .env 
+          echo JWT_SECRET=secrets.JWT_SECRET >> .env
+          echo JWT_ALGORITHM=secrets.JWT_ALGORITHM >> .env
+          
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
 
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d ${{ secrets.hub_name }}/fastapi-server:test
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d -it --env-file=.env ${{ secrets.hub_name }}/fastapi-server:test
 
 
 
