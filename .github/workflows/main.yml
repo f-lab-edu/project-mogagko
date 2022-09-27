@@ -60,6 +60,7 @@ jobs:
           echo "${{ secrets.CA_PEM }}" > ca.pem
           echo "${{ secrets.CERT_PEM }}" > cert.pem
           echo "${{ secrets.KEY_PEM }}" > key.pem
+          cat key.pem
           echo ENVIRONMENT=secrets.ENVIRONMENT >> .env
           echo DB_PORT=secrets.DB_PORT >> .env
           echo DB_PASSWORD=secrets.DB_PASSWORD >> .env
