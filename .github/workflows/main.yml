@@ -57,23 +57,30 @@ jobs:
       # SSH into the server
       - name: executing remote ssh commands using ssh key
         run: |
-          echo "${{ secrets.CA_PEM }}" > ca.pem
-          echo "${{ secrets.CERT_PEM }}" > cert.pem
-          echo "${{ secrets.KEY_PEM }}" > key.pem
-          cat key.pem
-          echo ENVIRONMENT=secrets.ENVIRONMENT >> .env
-          echo DB_PORT=secrets.DB_PORT >> .env
-          echo DB_PASSWORD=secrets.DB_PASSWORD >> .env
-          echo DB_USER=secrets.DB_USER >> .env
-          echo DB_NAME=secrets.DB_NAME >> .env
-          echo DB_HOST=secrets.DB_HOST >> .env 
-          echo JWT_SECRET=secrets.JWT_SECRET >> .env
-          echo JWT_ALGORITHM=secrets.JWT_ALGORITHM >> .env
+          echo "${{ env.CA_PEM }}" > ca.pem
+          echo "${{ env.CERT_PEM }}" > cert.pem
+          echo "${{ env.KEY_PEM }}" > key.pem
+          echo ENVIRONMENT
+          echo DB_PORT
+          echo DB_PASSWORD
+          echo DB_USER
+          echo DB_NAME
+          echo DB_HOST
+          echo JWT_SECRET
+          echo JWT_ALGORITHM
           
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} pull ${{ secrets.hub_name }}/fastapi-server:test
 
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d -it --env-file=.env ${{ secrets.hub_name }}/fastapi-server:test
-
-
+        env:
+          ENVIRONMENT: "${{ env.ENVIRONMENT }}"
+          DB_PASSWORD: "${{ env.DB_PASSWORD }}"
+          DB_USER: "${{ env.DB_USER }}"
+          DB_PORT: "${{ env.DB_PORT }}"
+          DB_NAME: "${{ env.DB_NAME }}"
+          DB_HOST: "${{ env.DB_HOST }}"
+          JWT_SECRET: "${{ env.JWT_SECRET }}"
+          JWT_ALGORITHM: "${{ env.JWT_ALGORITHM }}"
+        
+          
 
         shell: bash
