@@ -62,7 +62,7 @@ jobs:
           echo "${{ secrets.KEY_PEM }}" > key.pem
           
 
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d -it --env-file=.env ${{ secrets.hub_name }}/fastapi-server:test
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d ${{ secrets.hub_name }}/fastapi-server:test
         env:
           ENVIRONMENT: "${{ env.ENVIRONMENT }}"
           DB_PASSWORD: "${{ env.DB_PASSWORD }}"
