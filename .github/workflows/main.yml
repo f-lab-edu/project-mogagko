@@ -57,17 +57,9 @@ jobs:
       # SSH into the server
       - name: executing remote ssh commands using ssh key
         run: |
-          echo "${{ env.CA_PEM }}" > ca.pem
-          echo "${{ env.CERT_PEM }}" > cert.pem
-          echo "${{ env.KEY_PEM }}" > key.pem
-          echo ENVIRONMENT
-          echo DB_PORT
-          echo DB_PASSWORD
-          echo DB_USER
-          echo DB_NAME
-          echo DB_HOST
-          echo JWT_SECRET
-          echo JWT_ALGORITHM
+          echo "${{ secrets.CA_PEM }}" > ca.pem
+          echo "${{ secrets.CERT_PEM }}" > cert.pem
+          echo "${{ secrets.KEY_PEM }}" > key.pem
           
 
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d -it --env-file=.env ${{ secrets.hub_name }}/fastapi-server:test
