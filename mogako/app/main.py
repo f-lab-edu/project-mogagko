@@ -12,6 +12,8 @@ def create_app():
     c = conf()
     app = FastAPI()
     app.include_router(api_router)
+    print("c")
+    print(c)
     conf_dict = asdict(c)
     db.init_app(app, **conf_dict)
     Base.metadata.create_all(bind=db.engine)
