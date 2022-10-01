@@ -20,7 +20,5 @@ RUN pip install pipenv && pipenv install --system
 EXPOSE 8000
 
 
-ENTRYPOINT ["alembic" ,"upgrade", "head"]
-
 # main.py 실행
-CMD ["/usr/local/bin/python", "mogako/app/main.py"]
+CMD ["/bin/sh", "-c" , "/usr/local/bin/python mogako/app/main.py && alembic upgrade head"]
