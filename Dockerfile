@@ -15,6 +15,7 @@ ENV PYTHONPATH /app
 
 # pipenv 설치 및 라이브러리 설치
 RUN pip install pipenv && pipenv install --system
+RUN alembic upgrade head
 
 # port 설정
 EXPOSE 8000
