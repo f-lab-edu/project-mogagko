@@ -35,7 +35,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.hub_name }}/fastapi-server:test
+          tags: ${{ secrets.hub_name }}/fastapi-server:${{ github.sha }}
 
 
 
@@ -71,6 +71,6 @@ jobs:
           echo JWT_ALGORITHM="${{ secrets.JWT_ALGORITHM }}" >> .env
 
 
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d --env-file .env ${{ secrets.hub_name }}/fastapi-server:v1
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d --env-file .env ${{ secrets.hub_name }}/fastapi-server:${{ github.sha }}
 
         shell: bash
