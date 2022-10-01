@@ -21,4 +21,4 @@ EXPOSE 8000
 
 
 # main.py 실행
-CMD ["/bin/sh", "-c" , "alembic init migration && alembic upgrade head && /usr/local/bin/python mogako/app/main.py"]
+CMD ["/bin/sh", "-c" , "alembic upgrade head && /usr/local/bin/python mogako/app/main.py"]
