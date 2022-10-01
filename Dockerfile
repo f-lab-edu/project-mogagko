@@ -1,6 +1,7 @@
 # 파이썬 baseimage 선택
 From python:3.10
 
+# 환경변수 설정
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
@@ -12,15 +13,11 @@ WORKDIR /app
 
 ENV PYTHONPATH /app
 
-
-
-
-
 # pipenv 설치 및 라이브러리 설치
 RUN pip install pipenv && pipenv install --system
 
 # port 설정
 EXPOSE 8000
 
-# fastapi 실행
+# main.py 실행
 CMD ["/usr/local/bin/python", "mogako/app/main.py"]
