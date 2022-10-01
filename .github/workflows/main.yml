@@ -72,16 +72,5 @@ jobs:
           
 
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run --env-file .env ${{ secrets.hub_name }}/fastapi-server:test
-        env:
-          ENVIRONMENT: "${{ secrets.ENVIRONMENT }}"
-          DB_PASSWORD: "${{ secrets.DB_PASSWORD }}"
-          DB_USER: "${{ secrets.DB_USER }}"
-          DB_PORT: "${{ secrets.DB_PORT }}"
-          DB_NAME: "${{ secrets.DB_NAME }}"
-          DB_HOST: "${{ secrets.DB_HOST }}"
-          JWT_SECRET: "${{ secrets.JWT_SECRET }}"
-          JWT_ALGORITHM: "${{ secrets.JWT_ALGORITHM }}"
-        
-          
 
         shell: bash
