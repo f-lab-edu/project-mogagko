@@ -46,9 +46,12 @@ async def fetch_url(
         url = await url_queue.get()
 
         async with session.get(url, headers=headers) as result:
-            data = await result.json()
-            # Publish to response_queue
-            await response_queue.put((url, data))
+            try:
+                data = await result.json()
+                # Publish to response_queue
+                await response_queue.put((url, data))
+            except aiohttp.ContentTypeError:
+                print("data")
 
 
 async def create_cafe_from_res(
@@ -66,6 +69,7 @@ async def create_cafe_from_res(
         if not data["meta"]["is_end"]:
             base_url, cur_page = url.split("page=")
             next_url = f"{base_url}page={str(int(cur_page) + 1)}"
+            # Publish to url_queue
             await url_queue.put(next_url)
         for document in data["documents"]:
             cafe_list.append(
