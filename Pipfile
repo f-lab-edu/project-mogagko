@@ -17,6 +17,8 @@ pymysql = "*"
 alembic = "*"
 python-jose = {extras = ["cryptography"], version = "*"}
 passlib = {extras = ["bcrypt"], version = "*"}
+pandas = "*"
+aiohttp = "*"
 
 [dev-packages]
 
