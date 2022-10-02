@@ -63,8 +63,8 @@ jobs:
           echo JWT_SECRET="${{ secrets.JWT_SECRET }}" >> .env
           echo JWT_ALGORITHM="${{ secrets.JWT_ALGORITHM }}" >> .env
           
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} rm -f `docker ps -a --quiet` 
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} rm -f fastapi-server
           
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d -p 80:8000 --env-file .env ${{ secrets.hub_name }}/fastapi-server:${{ github.sha }}
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d -p --name fastapi-server  80:8000 --env-file .env ${{ secrets.hub_name }}/fastapi-server:${{ github.sha }}
 
         shell: bash
