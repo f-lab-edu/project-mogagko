@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from typing import Dict
 
 import bcrypt
-import jwt
+from jose import jwt
 from dotenv import load_dotenv
 
 from mogako.app.dto.user import UserTokenDTO, UserSignUpDTO
