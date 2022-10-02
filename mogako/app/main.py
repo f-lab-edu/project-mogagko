@@ -1,6 +1,7 @@
 from dataclasses import asdict
 
 import uvicorn
+from celery import Celery
 from fastapi import FastAPI
 
 from mogako.app.api import api_router
@@ -17,6 +18,9 @@ def create_app():
     return app
 
 
+celery = Celery(
+    __name__, broker="redis://127.0.0.1:6379/0", backend="redis://127.0.0.1:6379/0"
+)
 app = create_app()
 
 if __name__ == "__main__":
