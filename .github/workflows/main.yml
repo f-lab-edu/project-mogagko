@@ -3,7 +3,7 @@ name: Build API and Deploy
 on:
   push:
     branches:
-      - "develop"
+      - "test/git-action-test-1"
 
 jobs:
   example-job:
