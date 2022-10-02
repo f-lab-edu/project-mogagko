@@ -14,7 +14,12 @@ from mogako.app.api.response.cafe import (
     CommentCreateResponse,
 )
 from mogako.app.core.permission import get_current_user
-from mogako.app.dto.cafe import CafeCreateDTO, CafeUpdateDTO, CommentCreateDTO
+from mogako.app.dto.cafe import (
+    CafeCreateDTO,
+    CafeUpdateDTO,
+    CommentCreateDTO,
+    CafeReadDTO,
+)
 from mogako.app.dto.vote import VoteDTO
 from mogako.app.entity.cafe import Cafe, Comment
 from mogako.app.entity.user import User
@@ -36,6 +41,14 @@ def creat_cafe(
         return JSONResponse(status_code=403, content={"message": "권한이 없습니다."})
     service = CafeService(repo=CafeRepository(db=db))
     cafe: Cafe = service.create_cafe(dto=CafeCreateDTO(**request.dict()))
+    return CafeResponse(**cafe.dict(exclude={"id"}))
+
+
+@cafe_router.get("/{cafe_external_key}", response_model=CafeResponse)
+def read_cafe(cafe_external_key: str, db: Session = Depends(db.session)):
+
+    service = CafeService(repo=CafeRepository(db=db))
+    cafe: Cafe = service.get_cafe(dto=CafeReadDTO(external_key=cafe_external_key))
     return CafeResponse(**cafe.dict(exclude={"id"}))
 
 

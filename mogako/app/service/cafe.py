@@ -1,4 +1,9 @@
-from mogako.app.dto.cafe import CafeCreateDTO, CafeUpdateDTO, CommentCreateDTO
+from mogako.app.dto.cafe import (
+    CafeCreateDTO,
+    CafeUpdateDTO,
+    CommentCreateDTO,
+    CafeReadDTO,
+)
 from mogako.app.dto.vote import VoteDTO
 from mogako.app.entity.cafe import Cafe, Comment
 from mogako.app.repository.cafe import CafeRepository, CommentRepository
@@ -11,6 +16,10 @@ class CafeService:
     def create_cafe(self, dto: CafeCreateDTO) -> Cafe:
         cafe = Cafe(**dto.dict())
         self._repo.create_cafe(cafe=cafe)
+        return cafe
+
+    def get_cafe(self, dto: CafeReadDTO) -> Cafe:
+        cafe = self._repo.get_cafe(**dto.dict())
         return cafe
 
     def update_cafe(self, dto: CafeUpdateDTO, external_key):
