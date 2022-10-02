@@ -65,6 +65,6 @@ jobs:
           
           docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} rm -f fastapi-server
           
-          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d -n fastapi-server -p 80:8000 --env-file .env ${{ secrets.hub_name }}/fastapi-server:${{ github.sha }}
+          docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=${{ secrets.HOST }}:${{ secrets.PORT }} run -d --name fastapi-server -p 80:8000 --env-file .env ${{ secrets.hub_name }}/fastapi-server:${{ github.sha }}
 
         shell: bash
