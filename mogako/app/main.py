@@ -1,6 +1,7 @@
 from dataclasses import asdict
 
 import uvicorn
+
 from fastapi import FastAPI
 
 from mogako.app.api import api_router
@@ -18,6 +19,7 @@ def create_app():
 
 
 app = create_app()
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
