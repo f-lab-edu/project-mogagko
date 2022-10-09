@@ -13,9 +13,18 @@ crawling_router = APIRouter()
 def crawling():
     load_name_list = get_load_name_list_from_excel()
     urls = make_urls_from_load_name_list(load_name_list)
-    urls_list = list_chunk(urls, 100)
-    fetch_urls.delay(urls=urls_list[1])
-    return {"message": f"crawling start {len(load_name_list)}"}
+    urls_count_per_worker = 5
+    urls_list = list_chunk(urls, urls_count_per_worker)
+    worker_count = 5
+    for i, urls in enumerate(urls_list):
+        fetch_urls.delay(urls=urls)
+        if i == worker_count:
+            break
+    return {
+        "total load_name count": f"{len(load_name_list)}",
+        "fetch_urls worker count": f"{worker_count}",
+        "urls_count_per_worker": f"{urls_count_per_worker}",
+    }
 
 
 def get_load_name_list_from_excel() -> List[str]:

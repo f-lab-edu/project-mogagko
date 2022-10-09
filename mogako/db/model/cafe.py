@@ -14,6 +14,7 @@ class Cafe(Base, DBModelUtil):
     __tablename__ = "cafe"
 
     cafe_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    kakao_cafe_id = Column(Integer, nullable=True, unique=True)
     external_key = Column(String(50), unique=True, index=True, nullable=False)
     name = Column(String(50), nullable=False)
     address = Column(String(258))
