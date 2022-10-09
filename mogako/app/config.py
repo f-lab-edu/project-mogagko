@@ -3,7 +3,6 @@ get_settings gets called for each request.
  lru_cache to cache the settings so get_settings is only called once.
 lru_cache
 https://docs.python.org/3/library/functools.html#functools.lru_cache
-
 """
 import logging
 import os

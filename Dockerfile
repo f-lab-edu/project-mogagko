@@ -1,11 +1,17 @@
 # 파이썬 baseimage 선택
 From python:3.10
 
-# 모든 파일 docker container ./CODE로 COPY
-COPY . /CODE
+# 환경변수 설정
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# 현재 workdir를 /CODE로 지정
-WORKDIR /CODE
+# 모든 파일 docker container ./app로 COPY
+COPY . /app
+
+# 현재 workdir를 /app로 지정
+WORKDIR /app
+
+ENV PYTHONPATH /app
 
 # pipenv 설치 및 라이브러리 설치
 RUN pip install pipenv && pipenv install --system
@@ -14,6 +20,5 @@ RUN pip install pipenv && pipenv install --system
 EXPOSE 8000
 
 
-# fastapi 실행 9
-CMD ["/usr/bin/python", "mogako/app/main.py"]
-#CMD ["uvicorn", "mogako.app.main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
+# main.py 실행
+CMD ["/bin/sh", "-c" , "/usr/local/bin/python mogako/app/main.py"]

@@ -17,6 +17,10 @@ class CafeCreateDTO(BaseModel):
     tel: str | None = None
 
 
+class CafeReadDTO(BaseModel):
+    external_key: str
+
+
 class CafeUpdateDTO(BaseModel):
     name: str | None = None
     address: str | None = None
