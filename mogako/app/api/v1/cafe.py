@@ -58,8 +58,8 @@ def read_cafe(cafe_external_key: str, db: Session = Depends(db.session)):
 def search_cafe_with_keyword(keyword: str, db: Session = Depends(db.session)):
     service = CafeService(repo=CafeRepository(db=db))
     cafes: Cafe = service.search_cafe(dto=CafeSearchDTO(keyword=keyword))
-    cafes_list = [cafe.dict(exclude={"cafe_id"}) for cafe in cafes]
-    return CafeListResponse(cafes=cafes_list)
+    dict_cafes = [cafe.dict(exclude={"cafe_id"}) for cafe in cafes]
+    return CafeListResponse(cafes=dict_cafes)
 
 
 @cafe_router.post("/{cafe_external_key}/vote", response_model=CafeResponse)
