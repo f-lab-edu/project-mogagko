@@ -21,6 +21,10 @@ class CafeReadDTO(BaseModel):
     external_key: str
 
 
+class CafeSearchDTO(BaseModel):
+    keyword: str
+
+
 class CafeUpdateDTO(BaseModel):
     name: str | None = None
     address: str | None = None

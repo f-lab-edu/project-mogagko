@@ -12,6 +12,7 @@ from mogako.app.api.response.cafe import (
     CafeResponse,
     CafeUpdateResponse,
     CommentCreateResponse,
+    CafeListResponse,
 )
 from mogako.app.core.permission import get_current_user
 from mogako.app.dto.cafe import (
@@ -19,6 +20,7 @@ from mogako.app.dto.cafe import (
     CafeUpdateDTO,
     CommentCreateDTO,
     CafeReadDTO,
+    CafeSearchDTO,
 )
 from mogako.app.dto.vote import VoteDTO
 from mogako.app.entity.cafe import Cafe, Comment
@@ -50,6 +52,14 @@ def read_cafe(cafe_external_key: str, db: Session = Depends(db.session)):
     service = CafeService(repo=CafeRepository(db=db))
     cafe: Cafe = service.get_cafe(dto=CafeReadDTO(external_key=cafe_external_key))
     return CafeResponse(**cafe.dict(exclude={"id"}))
+
+
+@cafe_router.get("/search/", response_model=CafeListResponse)
+def search_cafe_with_keyword(keyword: str, db: Session = Depends(db.session)):
+    service = CafeService(repo=CafeRepository(db=db))
+    cafes: Cafe = service.search_cafe(dto=CafeSearchDTO(keyword=keyword))
+    cafes_list = [cafe.dict(exclude={"cafe_id"}) for cafe in cafes]
+    return CafeListResponse(cafes=cafes_list)
 
 
 @cafe_router.post("/{cafe_external_key}/vote", response_model=CafeResponse)
