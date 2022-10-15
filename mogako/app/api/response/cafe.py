@@ -23,6 +23,10 @@ class CafeResponse(BaseModel):
     updated_at: datetime
 
 
+class CafeListResponse(BaseModel):
+    cafes: list[CafeResponse]
+
+
 class CafeUpdateResponse(BaseModel):
     external_key: str | None
     name: str | None
