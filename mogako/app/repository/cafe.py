@@ -38,6 +38,15 @@ class CafeRepository:
         cafe = Cafe(**cafe_orm.dict())
         return cafe
 
+    def search_cafe(self, keyword: str):
+        cafe_orm = (
+            self.db.query(CafeORM)
+            .filter(CafeORM.name.like("%{}%".format(keyword)))
+            .all()
+        )
+        cafes = [Cafe(**cafe.dict()) for cafe in cafe_orm]
+        return cafes
+
     def get_vote(self, cafe_id: int, user_id: int) -> Vote | None:
         vote_orm = (
             self.db.query(VoteORM).filter_by(cafe_id=cafe_id, user_id=user_id).first()
